@@ -1,4 +1,4 @@
-# G DOT
+# Remote Computer Administration Tool
 ### Windows Administration & Security Assessment
 
 G DOT is a Windows administration and security assessment application built with **C++20 and Qt 6**. It provides a graphical interface for authorized system monitoring and administration, with secure communication and explicit user consent.

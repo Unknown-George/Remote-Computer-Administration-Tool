@@ -1,235 +1,77 @@
-<<<<<<< HEAD
 # G DOT
+### Windows Administration & Security Assessment
 
-G DOT is a visible, consent-based Windows administration and assessment
-application written in C++20 with Qt 6.
+G DOT is a Windows administration and security assessment application built with **C++20 and Qt 6**. It provides a graphical interface for authorized system monitoring and administration, with secure communication and explicit user consent.
 
-## Features
+## Key Features
 
-- Single branded Windows executable
-- G DOT graphical launcher
-- Managed Computer interface
-- Administration Console interface
-- TLS 1.2-or-later connections
-- Explicit certificate trust
-- SHA-256 certificate identity verification
-- Random 256-bit session token
-- Constant-time token comparison
-- Per-request local approval
-- Windows system inventory
-- Windows disk usage
-- Windows process inventory
-- Local JSONL security audit logs
-- Administrator-side JSON export
-- Request and response size limits
-- Connection timeouts
-- No automatic startup
-- No hidden persistence
-- No remote shell
-- No credential collection
-- No screenshots
-- No keylogging
-- No arbitrary file access
+- **Graphical Interface** — Dedicated management and administration consoles.
+- **Secure Communication** — TLS 1.2+ with explicit certificate trust and SHA-256 identity verification.
+- **Session Security** — Cryptographically random 256-bit session tokens and constant-time token comparison.
+- **System Assessment** — View system information, disk usage, and running processes.
+- **Audit Logging** — Local JSONL security logs and administrator-side JSON export.
+- **Request Protection** — Response size limits, request validation, and connection timeouts.
+- **Privacy by Design** — No hidden persistence, credential collection, keylogging, screenshots, remote shell, or arbitrary file access.
 
 ## Requirements
 
 - Windows 10 or Windows 11
-- Visual Studio 2022
-- Desktop development with C++
-- CMake 3.24 or newer
-- Qt 6.5 or newer
-- Matching Qt MSVC 64-bit kit
-- OpenSSL command-line tools for test certificates
+- Visual Studio 2022 with Desktop development with C++
+- CMake 3.24 or later
+- Qt 6.5 or later (MSVC 64-bit)
+- OpenSSL command-line tools for local test certificates
 
-## Build
+## Build Instructions
 
-Open a Developer PowerShell for Visual Studio.
+Open **Developer PowerShell for Visual Studio**.
 
-Set the Qt installation directory:
+Configure the Qt installation path:
 
 ```powershell
 $env:QT_ROOT = "C:\Qt\6.8.3\msvc2022_64"
+```
 
-Configure:
+Configure the project:
 
+```powershell
 cmake -S . -B build `
     -G "Visual Studio 17 2022" `
     -A x64 `
     "-DCMAKE_PREFIX_PATH=$env:QT_ROOT"
-Build:
+```
 
-cmake --build build --config Release
-Run tests:
-
-ctest `
-    --test-dir build `
-    -C Release `
-    --output-on-failure
-
-Deploy Qt runtime files:
-
-& "$env:QT_ROOT\bin\windeployqt.exe" `
-    --release `
-    .\build\Release\G-DOT.exe
-    Local certificate
-Create a local certificate for testing:
-
-New-Item -ItemType Directory -Force certs | Out-Null
-
-openssl req `
-    -x509 `
-    -newkey rsa:3072 `
-    -sha256 `
-    -nodes `
-    -keyout certs/server-key.pem `
-    -out certs/server-cert.pem `
-    -days 30 `
-    -subj "/CN=localhost" `
-    -addext "subjectAltName=DNS:localhost,IP:127.0.0.1" `
-    -addext "basicConstraints=critical,CA:FALSE" `
-    -addext "extendedKeyUsage=serverAuth"
-
-    Restrict the private key:
-
-$account = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
-
-icacls certs/server-key.pem `
-    /inheritance:r `
-    /grant:r "${account}:(R)"
-Local demonstration
-Start the application:
-
-Start-Process .\build\Release\G-DOT.exe
-
----
-
-## Build and run
+Build the application:
 
 ```powershell
-$env:QT_ROOT = "C:\Qt\6.8.3\msvc2022_64"
-
-cmake -S . -B build `
-    -G "Visual Studio 17 2022" `
-    -A x64 `
-    "-DCMAKE_PREFIX_PATH=$env:QT_ROOT"
-
 cmake --build build --config Release
+```
 
-ctest `
-    --test-dir build `
-    -C Release `
-    --output-on-failure
+Run the test suite:
 
+```powershell
+ctest --test-dir build -C Release --output-on-failure
+```
+
+Deploy Qt dependencies:
+
+```powershell
 & "$env:QT_ROOT\bin\windeployqt.exe" `
     --release `
     .\build\Release\G-DOT.exe
+```
 
+## Launch
+
+Run the application:
+
+```powershell
 .\build\Release\G-DOT.exe
-=======
-# G DOT
+```
 
-G DOT is a visible, consent-based Windows administration and assessment
-application written in C++20 with Qt 6.
+## Security Testing
 
-## Features
+For local testing, generate a dedicated TLS certificate and configure the application to trust the expected certificate identity. Restrict access to the private key and never distribute it with the application.
 
-- Single branded Windows executable
-- G DOT graphical launcher
-- Managed Computer interface
-- Administration Console interface
-- TLS 1.2-or-later connections
-- Explicit certificate trust
-- SHA-256 certificate identity verification
-- Random 256-bit session token
-- Constant-time token comparison
-- Per-request local approval
-- Windows system inventory
-- Windows disk usage
-- Windows process inventory
-- Local JSONL security audit logs
-- Administrator-side JSON export
-- Request and response size limits
-- Connection timeouts
-- No automatic startup
-- No hidden persistence
-- No remote shell
-- No credential collection
-- No screenshots
-- No keylogging
-- No arbitrary file access
+## Design Principles
 
-## Requirements
-
-- Windows 10 or Windows 11
-- Visual Studio 2022
-- Desktop development with C++
-- CMake 3.24 or newer
-- Qt 6.5 or newer
-- Matching Qt MSVC 64-bit kit
-- OpenSSL command-line tools for test certificates
-
-## Build
-
-Open a Developer PowerShell for Visual Studio.
-
-Set the Qt installation directory:
-
-```powershell
-$env:QT_ROOT = "C:\Qt\6.8.3\msvc2022_64"
-
-
-
-Configure:
-
-cmake -S . -B build `
-    -G "Visual Studio 17 2022" `
-    -A x64 `
-    "-DCMAKE_PREFIX_PATH=$env:QT_ROOT"
-
-Build:
-
-cmake --build build --config Release
-Run tests:
-
-ctest `
-    --test-dir build `
-    -C Release `
-    --output-on-failure
-Deploy Qt runtime files:
-
-& "$env:QT_ROOT\bin\windeployqt.exe" `
-    --release `
-    .\build\Release\G-DOT.exe
-
-Local certificate
-Create a local certificate for testing:
-
-New-Item -ItemType Directory -Force certs | Out-Null
-
-openssl req `
-    -x509 `
-    -newkey rsa:3072 `
-    -sha256 `
-    -nodes `
-    -keyout certs/server-key.pem `
-    -out certs/server-cert.pem `
-    -days 30 `
-    -subj "/CN=localhost" `
-    -addext "subjectAltName=DNS:localhost,IP:127.0.0.1" `
-    -addext "basicConstraints=critical,CA:FALSE" `
-    -addext "extendedKeyUsage=serverAuth"
-Restrict the private key:
-
-$account = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
-
-icacls certs/server-key.pem `
-    /inheritance:r `
-    /grant:r "${account}:(R)"
-Local demonstration
-Start the application:
-
-Start-Process .\build\Release\G-DOT.exe
-
-
-
->>>>>>> 143db0879e5eafad0e93c25744890f381ae7a62c
+G DOT prioritizes transparency, explicit authorization, secure communication, and minimal access. It is designed to support legitimate administration and assessment without covert monitoring or unrestricted remote control.
